@@ -15,6 +15,13 @@ var sourcemaps = require('gulp-sourcemaps');
 var rupture = require('rupture');
 
 
+
+gulp.task('jade', function() {
+  gulp.src('./src/assets/views/*.jade')
+    .pipe(jade())
+    .pipe(gulp.dest('./public/'))
+});
+
 gulp.task('stylus', function () {
   return gulp.src('./src/assets/styles/*.styl')
     .pipe(stylus({
@@ -27,20 +34,14 @@ gulp.task('stylus', function () {
     .pipe(gulp.dest('./public'));
 });
 
-gulp.task('jade', function() {
-  gulp.src('./src/assets/views/*.jade')
-    .pipe(jade())
-    .pipe(gulp.dest('./public/'))
-});
-
 gulp.task('lint', function () {
-  return gulp.src('./src/app/**/*.js')
+  return gulp.src('./src/**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
 gulp.task('scripts', function () {
-  return gulp.src('./src/assets/**/*.js')
+  return gulp.src('./src/**/*.js')
     .pipe(uglify())
     .pipe(concat('vendor.min.js'))
     .pipe(gulp.dest('./public/'));
@@ -59,7 +60,7 @@ gulp.task('copy', ['browserify', 'stylus'], function () {
     .pipe(browserSync.stream())
 });
 
-gulp.task('build', [ 'lint', 'stylus', 'jade', 'copy', 'scripts' ]);
+gulp.task('build', [ 'lint', 'jade', 'stylus', 'copy', 'scripts' ]);
 
 gulp.task('browser-sync', ['build'], function () {
   browserSync.init({
