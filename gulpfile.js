@@ -12,11 +12,16 @@ var uglify = require('gulp-uglify');
 var cleanCSS = require('gulp-clean-css');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
+var rupture = require('rupture');
 
 
 gulp.task('stylus', function () {
   return gulp.src('./src/assets/styles/*.styl')
-    .pipe(stylus())
+    .pipe(stylus({
+      use: [
+        rupture()
+      ]
+    }))
     .pipe(concat('styles.css'))
     .pipe(cleanCSS())
     .pipe(gulp.dest('./public'));
